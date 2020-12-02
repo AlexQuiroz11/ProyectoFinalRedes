@@ -1,0 +1,90 @@
+package javaapplication6;
+	
+
+	import java.util.Scanner;
+	
+
+	public class Dijkstra {
+	
+
+	 public  int distancia[] = new int[10];
+	 public  int costo[][] = new int[10][10];
+	 
+	 public void calculo(int nronod,int ori)
+	 {
+	  int v[] = new int[nronod+1];
+	  int i,j,aux,minmum;
+	  int minposc = 1;
+	  for(i = 1; i <= nronod; i++)
+	  {  
+	      v[i]=0; 
+	      this.distancia[i]=this.costo[ori][i]; 
+	  }
+	  aux = 2;
+	  while(aux <= nronod)
+	  {
+	   minmum=99;
+	   for( j = 1 ;j <= nronod; j++)
+	   { 
+	        if(this.distancia[j]<minmum && v[j]!=1)
+	        {
+	        minmum = this.distancia[i];
+	        minposc = j;
+	        }
+	   } 
+	   v[minposc] = 1;
+	   aux++;
+	   for(j = 1; j <= nronod; j++)
+	   {
+	       if(this.distancia[minposc]+this.costo[minposc][j] <  this.distancia[j] && v[j]!=1 )
+	       this.distancia[j]=this.distancia[minposc]+this.costo[minposc][j];
+	   }   
+	  } 
+	  
+	 }
+	 public static void main(String args[])
+	 {
+	  int nodos,origen,i,j;
+	  Scanner in = new Scanner(System.in);
+	  System.out.println("Ingresar el numero de nodos \n");
+	  nodos = in.nextInt();
+	  
+	  Dijkstra d = new Dijkstra();
+	  System.out.println("Ingresar los costos de la matriz: \n");
+	        for(i=1;i<=nodos;i++){
+	          for(j=1;j<=nodos;j++)
+	          {
+	            d.costo[i][j]=in.nextInt();
+	            if(d.costo[i][j]==0)
+	            {
+	              d.costo[i][j]=999;
+	            }
+	            if(d.costo[i][j]<0){
+	                
+	                break;
+	            }
+	          }
+	        }  
+	  System.out.println("Ingresar el nodo de inicio :\n");
+	  origen=in.nextInt();
+	  
+	  d.calculo(nodos,origen);
+	  System.out.println("El camino mas corto desde el nodo "+origen+" hacia los demas nodos es : \n");
+	        for(i=1;i<=nodos;i++){
+	          
+	          
+	          if(d.distancia[i]>=0){
+	              if(i!=origen){
+	                  System.out.println("Inicio :"+origen+"\t destino :"+i+"\t costo :"+d.distancia[i]+"\t");
+	              }
+	              
+	          }else
+	              System.out.println("Error: no deben haber valores negativos");
+	              break;
+	        
+	        
+	        }  
+	 } 
+	    
+	    
+	}
